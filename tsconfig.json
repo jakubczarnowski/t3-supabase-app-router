@@ -33,7 +33,8 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.mjs",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "scripts/add-users-import.js"
   ],
   "exclude": ["node_modules"]
 }

@@ -11,7 +11,8 @@ import superjson from "superjson";
 import { ZodError } from "zod";
 
 import { db } from "~/server/db";
-import { getUserAsAdmin } from "../supabase/supabaseClient";
+import { getServiceSupabase } from "../supabase/supabaseClient";
+import { cookies } from "next/headers";
 
 /**
  * This is the actual context you will use in your router. It will be used to process every request
@@ -21,15 +22,19 @@ import { getUserAsAdmin } from "../supabase/supabaseClient";
  */
 
 export const createTRPCContext = async (opts: { headers: Headers }) => {
-  const headers = opts.headers;
-  const authToken = headers.get("authorization");
+  const ckies = cookies();
+  const refreshToken = ckies.get("refresh-token")?.value ?? "";
+  const accessToken = ckies.get("access-token")?.value ?? "";
 
-  const { user } = authToken ? await getUserAsAdmin(authToken) : { user: null };
+  const { data } = await getServiceSupabase().auth.setSession({
+    access_token: accessToken,
+    refresh_token: refreshToken,
+  });
 
   return {
     ...opts,
     db,
-    user,
+    user: data.user,
   };
 };
 /**
