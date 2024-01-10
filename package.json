@@ -1,5 +1,5 @@
 {
-  "name": "t3-supabase-app-router-enhanced",
+  "name": "t3-supabase-app-router-drizzle",
   "version": "0.1.0",
   "private": true,
   "scripts": {
